@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Qian Hu Thailand | Ornamental Fish Catalog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F5F7;--card:#fff;--tx:#1F2933;--mu:#667085;--ln:#E4E7EC;--ph:#EEF0F3;color-scheme:light dark}
+@media(prefers-color-scheme:dark){:root{--bg:#14181F;--card:#1C222B;--tx:#E6E9EE;--mu:#9AA4B2;--ln:#2A323D;--ph:#232B36}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 Inter,system-ui,sans-serif}
+.w{max-width:1200px;margin:0 auto;padding:16px}
+.hd{background:#fff;border-bottom:3px solid #2C4A6E;border-radius:12px;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.br{display:flex;align-items:center;gap:16px}
+.br img{height:76px;width:auto}
+.wm{line-height:1.15;font-size:clamp(20px,4vw,28px);font-weight:500;letter-spacing:.5px;color:#4A4A4A}
+.wm b{font-weight:500;color:#7A7A7A}.wm i{display:block;font-style:normal;color:#D9452F}
+.cb{border:0;background:none;color:#4A4A4A;font:inherit;font-size:14px;cursor:pointer}
+#srch{position:relative;margin:16px 0 4px}
+#q{width:100%;padding:11px 38px 11px 14px;border:1px solid var(--ln);border-radius:8px;background:var(--card);color:var(--tx);font:inherit}
+#clr{position:absolute;right:6px;top:6px;width:32px;height:32px;border:0;background:none;color:var(--mu);font-size:20px;cursor:pointer}
+.tabs{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0;display:flex;gap:8px;flex-wrap:wrap}
+.tb,.bt{border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:8px;padding:7px 14px;font:inherit;font-size:13px;cursor:pointer}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:7px}
+.tb.on{background:var(--c);border-color:var(--c);color:#fff}.tb.on .dot{background:#fff}
+.sh{display:flex;align-items:center;gap:10px;margin:26px 0 12px}
+.bar{width:4px;height:24px;border-radius:2px;background:var(--c)}
+h2{font:500 22px Fraunces,Georgia,serif;margin:0}
+.mu{color:var(--mu);font-size:13px;margin:0}.fl{flex:1;border-top:1px solid var(--ln)}
+.ds{margin:-4px 0 12px}
+.gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:14px}
+.cd{background:var(--card);border:1px solid var(--ln);border-top:3px solid var(--c);border-radius:12px;overflow:hidden;cursor:pointer;min-width:0}
+.ph0{position:relative;aspect-ratio:4/3;background:color-mix(in srgb,var(--c) 12%,var(--ph))}
+.ph0 img,.ph0 video{width:100%;height:100%;object-fit:cover;display:block}
+.ph{height:100%;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:13px}
+.bg,.ad{position:absolute;font-size:11px;padding:2px 8px;border-radius:6px}
+.bg{right:8px;bottom:8px;background:rgba(0,0,0,.6);color:#fff}
+.ad{left:8px;top:8px;background:#FFF3C4;color:#6B4E00}
+.ct{padding:10px 12px}
+.nm,.sc,.dt{margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nm{font-weight:500}.sc{font-size:12px;font-style:italic;color:var(--mu)}.dt{font-size:12px;color:var(--mu);margin-top:4px}
+.mr{text-align:center;margin-top:16px}.mr p{margin-bottom:8px}
+#empty{text-align:center;padding:32px 0}
+#adm{background:#FFF3C4;color:#6B4E00;border-radius:8px;padding:8px 12px;font-size:13px;margin-top:8px}
+#lb{position:fixed;inset:0;background:rgba(10,14,20,.82);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+#lb[hidden]{display:none}
+.lbx{position:relative;background:var(--card);border-radius:14px;width:min(1000px,100%);max-height:100%;overflow:auto;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(240px,1fr)}
+@media(max-width:700px){.lbx{grid-template-columns:1fr}}
+.x{position:absolute;right:10px;top:8px;z-index:3;width:36px;height:36px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:22px;cursor:pointer}
+.mw{position:relative;background:#0c1016;display:flex;align-items:center;justify-content:center;min-height:260px;max-height:70vh}
+.mw img,.mw video{max-width:100%;max-height:70vh;display:block}
+.ar{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;font-size:22px;cursor:pointer}
+.ar.l{left:8px}.ar.r{right:8px}
+.th{display:flex;gap:8px;padding:10px;overflow-x:auto}
+.th button{flex:none;position:relative;width:64px;height:48px;border:2px solid transparent;border-radius:6px;padding:0;background:var(--ph);overflow:hidden;cursor:pointer}
+.th button.on{border-color:var(--c)}
+.th img,.th video{width:100%;height:100%;object-fit:cover;display:block}
+.vt::after{content:'\25B6';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;background:rgba(0,0,0,.3);font-size:14px}
+.inf{padding:24px 22px;align-self:center}
+.inf h3{font:500 24px Fraunces,Georgia,serif;margin:4px 0}
+.sc2{font-style:italic;color:var(--mu);margin:0 0 12px}
+.bd{margin:0 0 14px;line-height:1.65}
+.ft{background:#1F3550;color:#C9D3E0;border-radius:12px;margin-top:36px;padding:26px 28px 18px}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px 32px}
+.ft h4{font:500 22px Fraunces,Georgia,serif;color:#fff;margin:0 0 8px}
+.ft p{margin:0;font-size:14px;line-height:1.7}
+.ft .k{display:inline-block;width:44px;color:#9FB3CC}
+.ft a{color:#fff}
+.cp{margin-top:20px!important;padding-top:12px;border-top:1px solid rgba(255,255,255,.18);font-size:12px!important;color:#9FB3CC}
+button:focus-visible,input:focus-visible,.cd:focus-visible{outline:2px solid #3E7CA6;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="hd">
+    <div class="br">
+      <img src="logo.png" alt="Qian Hu" onerror="this.remove()">
+      <div class="wm">QIAN HU <b>仟湖</b><i>THAILAND</i></div>
+    </div>
+    <button class="cb" id="goc" type="button">Contact</button>
+  </div>
+  <div id="srch">
+    <input id="q" type="text" placeholder="Search by category or fish name" aria-label="Search">
+    <button id="clr" type="button" aria-label="Clear search" hidden>&times;</button>
+  </div>
+  <div id="adm" hidden></div>
+  <div class="tabs" id="tabs"></div>
+  <div id="grid"></div>
+  <div id="empty" hidden><p>No results</p><button class="bt" id="rst" type="button">Clear search</button></div>
+  <div class="ft" id="ct">
+    <div class="fg">
+      <div>
+        <h4>Thai Qian Hu Co., Ltd.</h4>
+        <p>30/25 Moo 8, Klongnung, Klongluang,<br>Pathumthani 12120 Thailand</p>
+      </div>
+      <div>
+        <p><span class="k">Tel</span>+66 (0)2516 1155-8</p>
+        <p><span class="k">Fax</span>+66 (0)2516 1156</p>
+        <p><span class="k">Email</span><a href="mailto:order@thaiqianhu.com">order@thaiqianhu.com</a></p>
+      </div>
+    </div>
+    <p class="cp">Thai Qian Hu Co., Ltd. All rights reserved.</p>
+  </div>
+</div>
+
+<div id="lb" hidden>
+  <div class="lbx">
+    <button class="x" type="button" aria-label="Close">&times;</button>
+    <div><div id="lbm" class="mw"></div><div id="lbt" class="th"></div></div>
+    <div id="lbi" class="inf"></div>
+  </div>
+</div>
+
+<script>
+/* ---- Settings (only change if you use your own domain) ---- */
+const CFG={repo:'',cap:6,step:12}; // repo: 'owner/repo' when not on user.github.io
+
+const $=s=>document.querySelector(s);
+const IMG=/\.(jpe?g|png|webp|gif|avif)$/i,VID=/\.(mp4|webm|m4v|mov)$/i;
+const PAL=['#5B6CA8','#2F8F83','#9A6F24','#B0604F','#6B8E4E','#8A5FA0','#3E7CA6','#A8794A','#4F8A8B','#9C5B78'];
+const P=new URLSearchParams(location.search),ADMIN=P.get('admin')==='1';
+let FISH=[],CATS=[],ORPH=[],cur='All',q='',shown=CFG.step,LB=null;
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pretty=s=>s.replace(/[-_]+/g,' ').toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+const hash=s=>[...s].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
+const enc=p=>p.split('/').map(encodeURIComponent).join('/');
+
+function csv(t){
+  t=t.replace(/^\uFEFF/,'');const rows=[];let r=[],f='',inq=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(inq){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else inq=false}else f+=c}
+    else if(c==='"')inq=true;
+    else if(c===','){r.push(f);f=''}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;r.push(f);f='';rows.push(r);r=[]}
+    else f+=c}
+  if(f||r.length){r.push(f);rows.push(r)}
+  const h=(rows.shift()||[]).map(x=>x.trim().toLowerCase());
+  return rows.filter(r=>r.some(x=>x.trim())).map(r=>Object.fromEntries(h.map((k,i)=>[k,(r[i]||'').trim()])));
+}
+async function txt(f){try{const r=await fetch(f,{cache:'no-store'});return r.ok?await r.text():''}catch(e){return ''}}
+
+async function tree(){
+  let o,r;const h=location.hostname;
+  if(CFG.repo){[o,r]=CFG.repo.split('/')}
+  else if(h.endsWith('.github.io')){o=h.split('.')[0];r=location.pathname.split('/')[1]||h}
+  else throw new Error('Set CFG.repo in index.html');
+  const key='qh_tree_'+o+'/'+r;
+  try{const c=JSON.parse(sessionStorage.getItem(key));if(c&&Date.now()-c.t<6e4)return c.d}catch(e){}
+  for(const ref of['HEAD','main','master']){
+    try{
+      const x=await fetch('https://api.github.com/repos/'+o+'/'+r+'/git/trees/'+ref+'?recursive=1');
+      if(!x.ok)continue;
+      const d=(await x.json()).tree.filter(e=>e.type==='blob').map(e=>e.path);
+      try{sessionStorage.setItem(key,JSON.stringify({t:Date.now(),d}))}catch(e){}
+      return d;
+    }catch(e){}
+  }
+  throw new Error('GitHub API unavailable');
+}
+
+async function load(){
+  const [paths,ft,ct]=await Promise.all([tree(),txt('fish.csv'),txt('categories.csv')]);
+  const rows=csv(ft),cr=csv(ct),info={},cmap={},dirs={};
+  rows.forEach(x=>{if(x.folder&&x.code)info[x.folder.toLowerCase()+'/'+x.code.toLowerCase()]=x});
+  cr.forEach(x=>{if(x.folder)cmap[x.folder.toLowerCase()]=x});
+  paths.forEach(p=>{
+    const s=p.split('/');if(s.length!==2||/^[._]/.test(s[0]))return;
+    const m=IMG.test(s[1])?'image':VID.test(s[1])?'video':null;if(!m)return;
+    (dirs[s[0]]=dirs[s[0]]||[]).push({n:s[1].replace(/\.[^.]+$/,''),m,p});
+  });
+  CATS=[];FISH=[];
+  Object.keys(dirs).forEach(d=>{
+    const dl=d.toLowerCase(),cm=cmap[dl]||{};
+    const stems=new Set(dirs[d].map(f=>f.n.toLowerCase()));
+    rows.forEach(x=>{if(x.folder&&x.folder.toLowerCase()===dl&&x.code)stems.add(x.code.toLowerCase())});
+    const g={};
+    dirs[d].forEach(f=>{
+      const m=f.n.match(/^(.+)-(\d+)$/);let k=f.n,o=1;
+      if(m&&stems.has(m[1].toLowerCase())){k=m[1];o=+m[2]}
+      const id=k.toLowerCase();(g[id]=g[id]||{code:k,files:[]}).files.push({m:f.m,p:f.p,o});
+    });
+    const cat={folder:d,title:cm.title||pretty(d),desc:cm.description||'',color:cm.color||PAL[hash(d)%PAL.length]};
+    CATS.push(cat);
+    Object.values(g).sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true})).forEach(x=>{
+      const fi=info[dl+'/'+x.code.toLowerCase()];
+      const media=x.files.sort((a,b)=>(a.m===b.m?0:a.m==='image'?-1:1)||a.o-b.o).map(f=>({t:f.m,u:enc(f.p)}));
+      FISH.push({id:FISH.length,cat,code:x.code,name:fi?fi.name||'':'',sci:fi?fi.scientific_name||'':'',detail:fi?fi.detail||'':'',has:!!fi,media});
+    });
+  });
+  const ord=cr.map(x=>(x.folder||'').toLowerCase());
+  CATS.sort((a,b)=>{const i=ord.indexOf(a.folder.toLowerCase()),j=ord.indexOf(b.folder.toLowerCase());return (i<0?999:i)-(j<0?999:j)||a.title.localeCompare(b.title)});
+  const seen=new Set(FISH.map(f=>f.cat.folder.toLowerCase()+'/'+f.code.toLowerCase()));
+  ORPH=rows.filter(x=>x.folder&&x.code&&!seen.has(x.folder.toLowerCase()+'/'+x.code.toLowerCase())).map(x=>x.folder+'/'+x.code);
+}
+
+const match=(f,t)=>!t||(f.cat.title+' '+f.name+' '+f.sci+' '+f.detail).toLowerCase().includes(t);
+
+function card(f){
+  const m=f.media[0],vid=f.media.some(x=>x.t==='video');
+  const media=m.t==='image'
+    ?'<img src="'+m.u+'" loading="lazy" alt="'+esc(f.name)+'" onerror="this.outerHTML=\'<div class=ph>Photo unavailable</div>\'">'
+    :'<video src="'+m.u+'#t=0.1" preload="metadata" muted playsinline></video>';
+  return '<div class="cd" tabindex="0" data-i="'+f.id+'" style="--c:'+f.cat.color+'"><div class="ph0">'+media
+    +(vid?'<span class="bg">Video</span>':'')
+    +(ADMIN?'<span class="ad">'+esc(f.code)+(f.has?'':' - no data')+'</span>':'')
+    +'</div><div class="ct">'
+    +(f.name?'<p class="nm">'+esc(f.name)+'</p>':'')
+    +(f.sci?'<p class="sc">'+esc(f.sci)+'</p>':'')
+    +(f.detail?'<p class="dt">'+esc(f.detail)+'</p>':'')+'</div></div>';
+}
+
+function render(){
+  $('#tabs').innerHTML=['All'].concat(CATS.map(c=>c.folder)).map(d=>{
+    const c=CATS.find(x=>x.folder===d);
+    return '<button class="tb'+(d===cur?' on':'')+'" data-t="'+esc(d)+'" style="--c:'+(c?c.color:'#2C4A6E')+'">'+(c?'<span class="dot"></span>':'')+esc(c?c.title:'All')+'</button>';
+  }).join('');
+  const t=q.trim().toLowerCase(),all=cur==='All';let html='',n=0;
+  CATS.forEach(c=>{
+    if(!all&&cur!==c.folder)return;
+    const r=FISH.filter(f=>f.cat===c&&match(f,t));if(!r.length)return;
+    n+=r.length;const vis=r.slice(0,all?CFG.cap:shown);
+    html+='<section style="--c:'+c.color+'"><div class="sh"><span class="bar"></span><h2>'+esc(c.title)+'</h2><span class="mu">'+r.length+' fish</span><span class="fl"></span>'
+      +(all&&r.length>CFG.cap?'<button class="bt" data-t="'+esc(c.folder)+'">View all '+r.length+'</button>':'')+'</div>'
+      +(c.desc&&!all?'<p class="mu ds">'+esc(c.desc)+'</p>':'')
+      +'<div class="gr">'+vis.map(card).join('')+'</div>'
+      +(all?'':'<div class="mr"><p class="mu">Showing '+vis.length+' of '+r.length+'</p>'+(vis.length<r.length?'<button class="bt" id="more" type="button">Show more</button>':'')+'</div>')+'</section>';
+  });
+  $('#grid').innerHTML=html;$('#empty').hidden=n>0||!FISH.length;$('#clr').hidden=!q;
+  const mo=$('#more');if(mo)mo.onclick=()=>{shown+=CFG.step;render()};
+}
+function go(d){
+  cur=d;shown=CFG.step;
+  try{history.replaceState(null,'',d==='All'?location.pathname+(ADMIN?'?admin=1':''):'?cat='+encodeURIComponent(d)+(ADMIN?'&admin=1':''))}catch(e){}
+  render();
+}
+$('#tabs').onclick=e=>{const b=e.target.closest('[data-t]');if(b)go(b.dataset.t)};
+$('#grid').onclick=e=>{
+  const b=e.target.closest('[data-t]');if(b){go(b.dataset.t);scrollTo({top:0});return}
+  const c=e.target.closest('[data-i]');if(c)openLB(+c.dataset.i);
+};
+$('#grid').onkeydown=e=>{if(e.key==='Enter'){const c=e.target.closest('[data-i]');if(c)openLB(+c.dataset.i)}};
+$('#q').oninput=e=>{q=e.target.value;shown=CFG.step;render()};
+function reset(){q='';$('#q').value='';go('All')}
+$('#clr').onclick=reset;$('#rst').onclick=reset;
+$('#goc').onclick=()=>$('#ct').scrollIntoView({behavior:'smooth'});
+
+/* ---- Lightbox ---- */
+function openLB(id){
+  const f=FISH[id],t=q.trim().toLowerCase();
+  LB={list:FISH.filter(x=>x.cat===f.cat&&match(x,t)),i:0,m:0};LB.i=LB.list.indexOf(f);
+  drawLB();$('#lb').hidden=false;document.body.style.overflow='hidden';
+}
+function closeLB(){$('#lb').hidden=true;$('#lbm').innerHTML='';document.body.style.overflow=''}
+function nav(d){const n=LB.list.length;LB.i=(LB.i+d+n)%n;LB.m=0;drawLB()}
+function drawLB(){
+  const f=LB.list[LB.i],m=f.media[LB.m],n=LB.list.length;
+  $('#lb').style.setProperty('--c',f.cat.color);
+  $('#lbm').innerHTML=(m.t==='image'?'<img src="'+m.u+'" alt="'+esc(f.name)+'">':'<video src="'+m.u+'" controls autoplay playsinline></video>')
+    +(n>1?'<button class="ar l" data-d="-1" aria-label="Previous">&lsaquo;</button><button class="ar r" data-d="1" aria-label="Next">&rsaquo;</button>':'');
+  $('#lbt').innerHTML=f.media.length>1?f.media.map((x,k)=>'<button type="button" data-m="'+k+'" class="'+(k===LB.m?'on ':'')+(x.t==='video'?'vt':'')+'" aria-label="Media '+(k+1)+'">'
+    +(x.t==='image'?'<img src="'+x.u+'" alt="">':'<video src="'+x.u+'#t=0.1" preload="metadata" muted></video>')+'</button>').join(''):'';
+  $('#lbi').innerHTML='<p class="mu">'+esc(f.cat.title)+'</p>'
+    +(f.name?'<h3>'+esc(f.name)+'</h3>':'')
+    +(f.sci?'<p class="sc2">'+esc(f.sci)+'</p>':'')
+    +(f.detail?'<p class="bd">'+esc(f.detail)+'</p>':'')
+    +(ADMIN?'<p class="mu">Code: '+esc(f.code)+'</p>':'')
+    +'<p class="mu">'+(LB.i+1)+' / '+n+'</p>';
+}
+$('#lb').onclick=e=>{
+  const t=e.target;if(t.id==='lb'||t.closest('.x'))return closeLB();
+  const a=t.closest('[data-d]');if(a)return nav(+a.dataset.d);
+  const m=t.closest('[data-m]');if(m){LB.m=+m.dataset.m;drawLB()}
+};
+addEventListener('keydown',e=>{
+  if($('#lb').hidden)return;
+  if(e.key==='Escape')closeLB();
+  if(e.key==='ArrowRight'&&LB.list.length>1)nav(1);
+  if(e.key==='ArrowLeft'&&LB.list.length>1)nav(-1);
+});
+let sx=0;
+$('#lbm').addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+$('#lbm').addEventListener('touchend',e=>{
+  const d=e.changedTouches[0].clientX-sx;
+  if(e.target.tagName==='IMG'&&Math.abs(d)>60&&LB.list.length>1)nav(d<0?1:-1);
+});
+
+/* ---- Start ---- */
+(async()=>{
+  $('#grid').innerHTML='<p class="mu">Loading...</p>';
+  try{
+    await load();
+    const w=(P.get('cat')||P.get('lot')||'').toLowerCase(),c=CATS.find(x=>x.folder.toLowerCase()===w);
+    if(c)cur=c.folder;
+    if(ADMIN){
+      const nd=FISH.filter(f=>!f.has).map(f=>f.cat.folder+'/'+f.code);
+      $('#adm').hidden=false;
+      $('#adm').textContent='Owner view. Photos with no row in fish.csv: '+(nd.join(', ')||'none')+'. Rows in fish.csv with no photo: '+(ORPH.join(', ')||'none')+'.';
+    }
+    render();
+    if(!FISH.length)$('#grid').innerHTML='<p class="mu">No fish yet. Add a folder with photos to the repository.</p>';
+  }catch(e){
+    console.error(e);
+    $('#grid').innerHTML='<p class="mu">The catalog could not be loaded. Open the site from its GitHub Pages address, and try again in a few minutes.</p>';
+  }
+})();
+</script>
+</body>
+</html>
