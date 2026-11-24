@@ -108,6 +108,7 @@ button:focus-visible,input:focus-visible,.cd:focus-visible{outline:2px solid var
 .inf{align-self:center;padding:22px}
 .inf .ad{width:100%;margin:16px 0 8px}
 @media(max-width:700px){.lbx{grid-template-columns:1fr}}
+.cx{padding-bottom:14px}
 </style>
 </head>
 <body>
@@ -140,7 +141,6 @@ button:focus-visible,input:focus-visible,.cd:focus-visible{outline:2px solid var
     <p class="cp">Thai Qian Hu Co., Ltd. All rights reserved.</p>
   </footer>
 </div>
-<div class="fb" id="fb"></div>
 <div class="ov" id="ov" hidden></div>
 <script>
 /* Settings: change only if you use your own domain, e.g. repo:'myname/myrepo' */
@@ -150,9 +150,7 @@ const $=id=>document.getElementById(id);
 const IMG=/\.(jpe?g|png|webp|gif|avif)$/i,VID=/\.(mp4|webm|m4v|mov)$/i;
 const PAL=['#5B6CA8','#2F8F83','#9A6F24','#B0604F','#6B8E4E','#8A5FA0','#3E7CA6','#A8794A','#4F8A8B','#9C5B78'];
 const P=new URLSearchParams(location.search),ADMIN=P.get('admin')==='1';
-let FISH=[],CATS=[],ORPH=[],BK={},fc={},q='',shown=CFG.step,ov=null,sel={};
-try{sel=JSON.parse(localStorage.getItem('qh_sel')||'{}')||{}}catch(e){sel={}}
-const save=()=>{try{localStorage.setItem('qh_sel',JSON.stringify(sel))}catch(e){}};
+let FISH=[],CATS=[],ORPH=[],BK={},fc={},q='',shown=CFG.step,ov=null;
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pretty=s=>s.replace(/[-_]+/g,' ').toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
 const hash=s=>[...s].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
@@ -227,7 +225,6 @@ async function load(){
   CATS.sort((a,b)=>{const i=ord.indexOf(a.folder.toLowerCase()),j=ord.indexOf(b.folder.toLowerCase());return (i<0?999:i)-(j<0?999:j)||a.title.localeCompare(b.title)});
   FISH.sort((a,b)=>CATS.indexOf(a.cat)-CATS.indexOf(b.cat)||a.code.localeCompare(b.code,undefined,{numeric:true}));
   FISH.forEach((f,i)=>{f.id=i;f.key=f.cat.folder+'/'+f.code;BK[f.key]=f;f.cat.n++});
-  Object.keys(sel).forEach(k=>{if(!BK[k])delete sel[k]});
   const seen=new Set(FISH.map(f=>f.key.toLowerCase()));
   ORPH=rows.filter(x=>x.folder&&x.code&&!seen.has((x.folder+'/'+x.code).toLowerCase())).map(x=>x.folder+'/'+x.code);
 }
@@ -236,13 +233,12 @@ const mt=(m,alt)=>m.t==='image'
   ?'<img src="'+m.u+'" loading="lazy" alt="'+esc(alt)+'" onerror="this.outerHTML=\'<div class=phu>Photo unavailable</div>\'">'
   :'<video src="'+m.u+'#t=0.1" preload="metadata" muted playsinline></video>';
 const match=f=>{const t=q.trim().toLowerCase(),on=Object.keys(fc).length;return(!on||fc[f.cat.folder])&&(!t||(f.cat.title+' '+f.name+' '+f.sci+' '+f.det).toLowerCase().includes(t))};
-const addBtn=f=>'<button class="ad'+(sel[f.key]?' on':'')+'" type="button" data-k="'+f.id+'" aria-pressed="'+!!sel[f.key]+'">'+(sel[f.key]?'&#10003; Added':'+ Add to list')+'</button>';
 function card(f){
   return '<div class="cd" tabindex="0" data-o="'+f.id+'" style="'+ts(f.cat)+'"><div class="cf">'+mt(f.media[0],f.name)
     +(f.media.some(x=>x.t==='video')?'<span class="bg">Video</span>':'')
     +(ADMIN?'<span class="ac">'+esc(f.code)+(f.has?'':' - no data')+'</span>':'')+'</div><div class="cx">'
     +(f.name?'<p class="a">'+esc(f.name)+'</p>':'')+(f.sci?'<p class="b sf">'+esc(f.sci)+'</p>':'')+(f.det?'<p class="d">'+esc(f.det)+'</p>':'')
-    +'</div>'+addBtn(f)+'</div>';
+    +'</div></div>';
 }
 
 function draw(){
@@ -254,21 +250,12 @@ function draw(){
   $('grid').innerHTML=h||'<p class="cnt">No results</p>';
   $('cnt').textContent=r.length+' fish';
   $('mr').innerHTML=r.length?'Showing '+vis.length+' of '+r.length+(vis.length<r.length?'<br><button type="button" id="more">Show more</button>':''):'';
-  const n=Object.keys(sel).length;
-  $('fb').innerHTML=n?'<button class="fab" type="button" data-open="1">View my list <span class="bd">'+n+'</span></button>':'';
   $('ftg').textContent='Filters'+(keys.length?' ('+keys.length+')':'');
 }
 
 function pop(){
   const el=$('ov');el.hidden=!ov;document.body.style.overflow=ov?'hidden':'';
   if(!ov){el.innerHTML='';return}
-  if(ov.t==='list'){
-    const I=Object.keys(sel).map(k=>BK[k]).filter(Boolean).sort((a,b)=>a.id-b.id);
-    el.innerHTML='<div class="pp" role="dialog" aria-label="My list"><div class="ph"><div><h3 class="sf">My list</h3><div style="font-size:12px;color:var(--mu);letter-spacing:.08em">'+I.length+' selected</div></div><button class="x" type="button" data-close="1" aria-label="Close">&times;</button></div><div class="pl">'
-    +I.map(f=>'<div class="row" style="'+ts(f.cat)+'"><div class="th">'+mt(f.media[0],f.name)+'</div><div class="ri"><p class="a">'+esc(f.name||f.code)+'</p><p class="d">'+esc(f.cat.title)+'</p></div><span class="code">'+esc(f.code)+'</span><button class="x" type="button" data-rm="'+f.id+'" aria-label="Remove" style="font-size:20px">&times;</button></div>').join('')
-    +'</div><div class="pf"><button type="button" data-clr="1">Clear all</button><button class="go" type="button" data-close="1">Close</button></div></div>';
-    return;
-  }
   const f=FISH[ov.list[ov.i]],m=f.media[ov.m],n=ov.list.length;
   el.innerHTML='<div class="pp lbx" role="dialog" aria-label="'+esc(f.name)+'" style="'+ts(f.cat)+'"><button class="x cl" type="button" data-close="1" aria-label="Close">&times;</button><div><div class="mw">'
     +(m.t==='image'?'<img src="'+m.u+'" alt="'+esc(f.name)+'">':'<video src="'+m.u+'" controls autoplay playsinline></video>')
@@ -277,17 +264,13 @@ function pop(){
     +'</div><div class="inf"><p class="d" style="letter-spacing:.14em;text-transform:uppercase">'+esc(f.cat.title)+'</p>'
     +(f.name?'<h3 class="sf" style="margin:2px 0;font-size:30px;line-height:1.1;font-weight:600;text-transform:uppercase;letter-spacing:.05em">'+esc(f.name)+'</h3>':'')
     +(f.sci?'<p class="b sf" style="font-size:19px">'+esc(f.sci)+'</p>':'')+(f.det?'<p style="margin:10px 0 0;line-height:1.65">'+esc(f.det)+'</p>':'')
-    +(ADMIN?'<p class="d">Code: '+esc(f.code)+'</p>':'')+addBtn(f)+'<p class="d">'+(ov.i+1)+' / '+n+'</p></div></div>';
+    +(ADMIN?'<p class="d">Code: '+esc(f.code)+'</p>':'')+'<p class="d">'+(ov.i+1)+' / '+n+'</p></div></div>';
 }
 function nav(d){const n=ov.list.length;ov.i=(ov.i+d+n)%n;ov.m=0;pop()}
 function openItem(id){ov={t:'item',list:FISH.filter(match).map(f=>f.id),i:0,m:0};ov.i=Math.max(0,ov.list.indexOf(id));pop()}
 
 document.addEventListener('click',e=>{
-  const t=e.target;let b=t.closest('[data-k]');
-  if(b){const f=FISH[+b.dataset.k];if(sel[f.key])delete sel[f.key];else sel[f.key]=1;save();draw();if(ov)pop();return}
-  if(t.closest('[data-open]')){ov={t:'list'};pop();return}
-  if(b=t.closest('[data-rm]')){delete sel[FISH[+b.dataset.rm].key];save();if(!Object.keys(sel).length)ov=null;draw();pop();return}
-  if(t.closest('[data-clr]')){sel={};save();ov=null;draw();pop();return}
+  const t=e.target;let b;
   if(t.closest('[data-close]')||t.id==='ov'){ov=null;pop();return}
   if(b=t.closest('[data-d]')){nav(+b.dataset.d);return}
   if(b=t.closest('[data-m]')){ov.m=+b.dataset.m;pop();return}
