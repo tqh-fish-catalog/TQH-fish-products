@@ -109,6 +109,17 @@ button:focus-visible,input:focus-visible,.cd:focus-visible{outline:2px solid var
 .inf .ad{width:100%;margin:16px 0 8px}
 @media(max-width:700px){.lbx{grid-template-columns:1fr}}
 .cx{padding-bottom:14px}
+.fl.home{grid-template-columns:1fr}
+.fl.home .pn,.fl.home .ftg{display:none}
+.back{display:block;border:none;background:none;color:var(--mu);font-size:13px;letter-spacing:.06em;cursor:pointer;padding:0 0 12px}
+.back[hidden]{display:none}
+.tg{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+.tile{background:var(--sf);border:1px solid var(--ln);border-radius:14px;overflow:hidden;cursor:pointer;padding:0;text-align:left;box-shadow:var(--sh);display:block;width:100%;color:var(--tx)}
+.tile .cv{aspect-ratio:4/3;background:linear-gradient(135deg,var(--t1),var(--t2));position:relative;overflow:hidden}
+.tile .cv img,.tile .cv video{width:100%;height:100%;object-fit:cover;display:block}
+.tn{padding:12px 14px 14px}
+.tn b{display:block;font:600 24px/1.1 'Cormorant Garamond',Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.tn span{font-size:12px;color:var(--mu);letter-spacing:.08em}
 </style>
 </head>
 <body>
@@ -123,9 +134,10 @@ button:focus-visible,input:focus-visible,.cd:focus-visible{outline:2px solid var
     <p>Hand-selected ornamental fish from Thailand, prepared and shipped to collectors and retailers around the world.</p>
   </section>
   <div id="adm" hidden></div>
-  <div class="fl">
+  <div class="fl home" id="fl">
     <aside class="pn" id="pn"><p class="pt sf">Filter by</p><p class="ps"><span>Categories</span><button id="clr" type="button">Clear</button></p><div id="list"></div></aside>
     <main>
+      <button class="back" id="back" type="button" hidden>&larr; All categories</button>
       <button class="ftg" id="ftg" type="button">Filters</button>
       <input id="q" type="search" placeholder="Search fish or category" aria-label="Search">
       <p class="cnt" id="cnt"></p>
@@ -224,7 +236,7 @@ async function load(){
   const ord=cr.map(x=>(x.folder||'').toLowerCase());
   CATS.sort((a,b)=>{const i=ord.indexOf(a.folder.toLowerCase()),j=ord.indexOf(b.folder.toLowerCase());return (i<0?999:i)-(j<0?999:j)||a.title.localeCompare(b.title)});
   FISH.sort((a,b)=>CATS.indexOf(a.cat)-CATS.indexOf(b.cat)||a.code.localeCompare(b.code,undefined,{numeric:true}));
-  FISH.forEach((f,i)=>{f.id=i;f.key=f.cat.folder+'/'+f.code;BK[f.key]=f;f.cat.n++});
+  FISH.forEach((f,i)=>{f.id=i;f.key=f.cat.folder+'/'+f.code;BK[f.key]=f;f.cat.n++;if(!f.cat.cover||(f.cat.cover.t!=='image'&&f.media[0].t==='image'))f.cat.cover=f.media[0]});
   const seen=new Set(FISH.map(f=>f.key.toLowerCase()));
   ORPH=rows.filter(x=>x.folder&&x.code&&!seen.has((x.folder+'/'+x.code).toLowerCase())).map(x=>x.folder+'/'+x.code);
 }
@@ -242,8 +254,14 @@ function card(f){
 }
 
 function draw(){
-  const r=FISH.filter(match),vis=r.slice(0,shown),keys=Object.keys(fc);
+  const keys=Object.keys(fc),home=!keys.length&&!q.trim();
   CATS.forEach((c,i)=>{const l=$('l'+i);l.classList.toggle('on',!!fc[c.folder]);l.querySelector('input').checked=!!fc[c.folder]});
+  $('fl').classList.toggle('home',home);$('back').hidden=home;
+  if(home){
+    $('grid').innerHTML='<div class="tg">'+CATS.map((c,i)=>'<button class="tile" type="button" data-t="'+i+'" style="'+ts(c)+'"><div class="cv">'+(c.cover?mt(c.cover,c.title):'')+'</div><div class="tn"><b>'+esc(c.title)+'</b><span>'+c.n+' fish</span></div></button>').join('')+'</div>';
+    $('cnt').textContent=CATS.length+' categories';$('mr').innerHTML='';return;
+  }
+  const r=FISH.filter(match),vis=r.slice(0,shown);
   let h='',last=null;
   if(keys.length===1){const c=CATS.find(x=>x.folder===keys[0]);h+='<div class="tt" style="'+ts(c)+'"><h2 class="sf">'+esc(c.title)+'</h2><span class="ln"></span>'+(c.desc?'<p class="d">'+esc(c.desc)+'</p>':'')+'</div>'}
   vis.forEach(f=>{if(keys.length!==1&&f.cat!==last){last=f.cat;h+='<h3 class="sh sf">'+esc(f.cat.title)+'</h3>'}h+=card(f)});
@@ -271,6 +289,8 @@ function openItem(id){ov={t:'item',list:FISH.filter(match).map(f=>f.id),i:0,m:0}
 
 document.addEventListener('click',e=>{
   const t=e.target;let b;
+  if(b=t.closest('[data-t]')){fc={};fc[CATS[+b.dataset.t].folder]=1;shown=CFG.step;draw();scrollTo({top:0});return}
+  if(t.closest('#back')){fc={};q='';$('q').value='';shown=CFG.step;draw();scrollTo({top:0});return}
   if(t.closest('[data-close]')||t.id==='ov'){ov=null;pop();return}
   if(b=t.closest('[data-d]')){nav(+b.dataset.d);return}
   if(b=t.closest('[data-m]')){ov.m=+b.dataset.m;pop();return}
